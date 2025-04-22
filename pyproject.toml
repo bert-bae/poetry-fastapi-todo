@@ -22,12 +22,17 @@ dependencies = [
 # Default environment scripts for development and database operations
 dev = "todos.main:start"
 seed_db = "python {args:src/cli.py} seed-db"
+# api_one = "api_one.main:start"
+# api_two = "api_two.main:start"
 
 [tool.poetry]
 packages = [
     {include = "todos", from = "src"},
     {include = "models", from = "src"},
     {include = "agents", from = "src"},
+    # {include = "api_one", from = "src"},
+    # {include = "api_two", from = "src"},
+    # {include = "shared", from = "src"}  # Shared utilities or models
 ]
 
 [tool.poetry.group.dev.dependencies]
@@ -43,3 +48,4 @@ ruff = "^0.11.6"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+

@@ -47,6 +47,35 @@ Poetry is ideal for:
 
 ---
 
+## Managing Multiple APIs with Poetry
+
+Poetry supports managing multiple APIs in the same repository by leveraging its `packages` and `scripts` configuration in `pyproject.toml`. Each API can be treated as a separate package with its own entry point, while shared utilities or models can be placed in a common package.
+
+### Key Features:
+
+1. **Isolation**: Each API resides in its own directory, ensuring clean separation of concerns.
+2. **Shared Code**: Common utilities or models can be placed in a shared package for reuse.
+3. **Scalability**: Adding new APIs is straightforward—just create a new package and update `pyproject.toml`.
+4. **Unified Management**: Poetry's dependency and script management simplifies running and maintaining multiple APIs.
+
+### Example:
+
+- Define separate scripts for each API in `pyproject.toml`:
+  ```toml
+  [tool.poetry.scripts]
+  api_one = "api_one.main:start"
+  api_two = "api_two.main:start"
+  ```
+- Run each API using:
+  ```bash
+  poetry run api_one
+  poetry run api_two
+  ```
+
+This approach ensures modularity and scalability while maintaining simplicity in managing dependencies and environments.
+
+---
+
 ## Why Poetry?
 
 Poetry may be a good choice because:
