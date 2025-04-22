@@ -43,8 +43,3 @@ ruff = "^0.11.6"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.plugins."poetry.plugins"]
-# To run migrations = poetry run alembic revision --autogenerate
-# To run upgrade = poetry run alembic head
-alembic = "todos.plugins.alembic_plugin"

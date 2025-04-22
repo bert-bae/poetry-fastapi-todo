@@ -9,7 +9,7 @@ This repository provides a starter template for building and running a FastAPI-b
 Ensure the following tools are installed:
 
 - **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
-- **Hatch**: [Install Hatch](https://hatch.pypa.io/latest/install/)
+- **Poetry**: [Install Poetry](https://python-poetry.org/docs/#installation)
 
 ---
 
@@ -25,46 +25,38 @@ Ensure the following tools are installed:
 ## Dependencies
 
 - Docker
-- Hatch - [https://hatch.pypa.io/latest/install/](https://hatch.pypa.io/latest/install/)
+- Poetry - [https://python-poetry.org/docs/#installation](https://python-poetry.org/docs/#installation)
 
 ## Installation
 
-1. Install the Python version using Hatch:
+1. Install the project dependencies using Poetry:
 
    ```console
-   hatch python install 3.12
+   poetry install
    ```
 
-2. Create the virtual environments:
-
-   ```console
-   hatch env create
-   hatch env create test
-   hatch env create hooks
-   ```
-
-3. Run Docker Compose to start the PostgreSQL server:
+2. Run Docker Compose to start the PostgreSQL server:
 
    ```console
    docker compose up
    ```
 
-4. Run the database migrations:
+3. Run the database migrations:
 
    ```console
-   hatch run upgrade
+   poetry run alembic upgrade head
    ```
 
-5. Seed the database with initial data:
+4. Seed the database with initial data:
 
    ```console
-   hatch run seed_db
+   poetry run seed_db
    ```
 
-6. Run the FastAPI development server:
+5. Run the FastAPI development server:
 
    ```console
-   hatch run dev
+   poetry run dev
    ```
 
 ## Running the Unit Tests
@@ -73,24 +65,24 @@ Unit tests require Docker to be installed, as they use Testcontainers. These tes
 
 1. Run the unit tests:
    ```console
-   hatch run test:test
+   poetry run pytest
    ```
 
 ## Code Linting
 
 We have two ways to ensure that our code is linted and formatted.
 
-1. Use Hatch formatting after making changes:
+1. Use Poetry scripts after making changes:
 
    ```console
-   hatch fmt -f        # Run ruff format
-   hatch fmt -l        # Run ruff
-   hatch fmt --check   # Run ruff check, Pyright, and Bandit
+   poetry run ruff check        # Run Ruff checks
+   poetry run ruff fix          # Fix Ruff formatting issues
+   poetry run bandit -r src     # Run Bandit for security checks
+   poetry run pyright           # Run Pyright for type checking
    ```
 
 2. Use the pre-commit hook:
    ```console
-   hatch env shell hooks       # Activate the hooks environment
    pre-commit install          # Install the pre-commit hooks
    pre-commit run --all-files  # Run the pre-commit hooks
    ```
@@ -104,58 +96,64 @@ The project supports a variety of scripts to streamline development, database op
 - **dev**: Runs the FastAPI development server.
 
 ```console
-  hatch run dev
+  poetry run dev
 ```
 
 - make_migrations: Creates a new database migration with Alembic.
 
 ```console
-  hatch run make_migrations
+  poetry run alembic revision --autogenerate
 ```
 
 - upgrade: Applies all pending database migrations.
 
 ```console
-  hatch run upgrade
+  poetry run alembic upgrade head
 ```
 
 - seed_db: Seeds the database with initial data.
 
 ```console
-  hatch run seed_db
+  poetry run seed_db
 ```
 
 ### Testing
 
-- test: Executes all unit tests using Pytest.
+- pytest: Executes all unit tests using Pytest.
 
 ```console
-  hatch run test:test
+  poetry run pytest
 ```
 
 ### Code Quality and Linting
 
-- hatch fmt -f: Automatically fixes code formatting issues with Ruff.
+- ruff check: Checks code formatting and linting issues.
 
 ```console
-  hatch fmt -f
+  poetry run ruff check
 ```
 
-- hatch fmt -l: Runs the Ruff linter.
+- ruff fix: Automatically fixes code formatting issues.
 
 ```console
-  hatch fmt -l
+  poetry run ruff fix
 ```
 
-- hatch fmt --check: Checks code formatting and runs a series of linting checks (Ruff, Pyright, Bandit) to ensure code quality.
+- bandit: Runs Bandit for security checks.
 
 ```console
-  hatch fmt --check
+  poetry run bandit -r src
+```
+
+- pyright: Runs Pyright for type checking.
+
+```console
+  poetry run pyright
 ```
 
 ## Folder Structure
 
-This structure highlights the main components of your FastAPI Hatch Template:
+This structure highlights the main components of your FastAPI Poetry Template:
 
 - `alembic/`: Contains database migration scripts and configurations.
 - `seeds/`: Stores seed data files for populating the database.
@@ -169,7 +167,3 @@ This structure highlights the main components of your FastAPI Hatch Template:
   - `tests/`: Contains test files and configurations.
 - `docker-compose.yml`: Docker Compose configuration for setting up the development environment.
 - `pyproject.toml`: Project configuration and dependency management.
-
-## License
-
-`fastapi-hatch-template` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
