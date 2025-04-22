@@ -1,0 +1,50 @@
+[project]
+name = "poetry-fastapi-todo"
+version = "0.1.0"
+description = "Spike to review poetry"
+authors = []
+readme = "README.md"
+requires-python = ">=3.13,<4.0"
+dependencies = [
+    "pydantic (>=2.11.3,<3.0.0)",
+    "alembic (>=1.15.2,<2.0.0)",
+    "fastapi (>=0.115.12,<0.116.0)",
+    "asyncio (>=3.4.3,<4.0.0)",
+    "pyright (>=1.1.399,<2.0.0)",
+    "google-adk (>=0.2.0,<0.3.0)",
+    "asyncpg (>=0.30.0,<0.31.0)",
+    "greenlet (>=3.2.1,<4.0.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)",
+    "sqlalchemy (>=2.0.40,<3.0.0)"
+]
+
+[tool.poetry.scripts]
+# Default environment scripts for development and database operations
+dev = "todos.main:start"
+seed_db = "python {args:src/cli.py} seed-db"
+
+[tool.poetry]
+packages = [
+    {include = "todos", from = "src"},
+    {include = "models", from = "src"},
+    {include = "agents", from = "src"},
+]
+
+[tool.poetry.group.dev.dependencies]
+cleo = ">=2.1.0,<3.0.0"
+uvicorn = ">=0.34.2,<0.35.0"
+anyio = "^4.9.0"
+pytest = "^8.3.5"
+testcontainers = "^4.10.0"
+bandit = "^1.8.3"
+pyright = "^1.1.399"
+ruff = "^0.11.6"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.plugins."poetry.plugins"]
+# To run migrations = poetry run alembic revision --autogenerate
+# To run upgrade = poetry run alembic head
+alembic = "todos.plugins.alembic_plugin"
